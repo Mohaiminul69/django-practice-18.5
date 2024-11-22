@@ -3,6 +3,7 @@ from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -34,9 +35,9 @@ def user_login(request):
             password = form.cleaned_data["password"]
             user = authenticate(username=username, password=password)
             if user is not None:
-                messages.success(request, "Logged Successfully")
+                messages.success(request, "Logged In Successfully")
                 login(request, user)
-                return redirect("homepage")
+                return redirect("profile_page")
             else:
                 messages.warning(request, "Login information is not valid")
                 return redirect("signup_page")
@@ -47,4 +48,10 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect("login_page")
+    messages.success(request, "Logged Out Successfully")
+    return redirect("homepage")
+
+
+@login_required
+def profile(request):
+    return render(request, "profile.html")
