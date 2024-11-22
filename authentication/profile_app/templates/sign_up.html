@@ -1,7 +1,12 @@
 {% extends 'base.html' %}{% load crispy_forms_tags %} {% block content %}
 <section class="py-5">
-  <h1>This is the Sign up page.</h1>
+  <h1>This is the {{type}} page.</h1>
 
-  <div class="my-4">{{form|crispy}}</div>
+  <div class="my-4">
+    <form action="" method="post">
+      {% csrf_token %} {{form|crispy}}
+      <button class="btn btn-sm btn-success">Submit</button>
+    </form>
+  </div>
 </section>
 {% endblock %}
